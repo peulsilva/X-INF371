@@ -46,17 +46,11 @@ public class Percolation {
     }
 
     public static boolean isNaivePercolation(int n){
-        int up = n - size;
-        int down = n + size;
-        int left = n - 1;
-        int rigth = n + 1;
-
         boolean[] seen = new boolean[grid.length];
+        initSeenArray(seen);
 
-        if (up >= 0){
-
-        }
-
+        if (detectPath(seen, n, false))
+            return true;
         return false;
     }
 
@@ -65,6 +59,46 @@ public class Percolation {
         int n, 
         boolean up
     ){
+        seen[n] = true;
+
+        boolean down = !up;
+
+        int upDirection = n - size;
+        int downDirection = n + size;
+        int leftDirection = n - 1;
+        int rigthDirection = n + 1;
+
+        boolean isValidLeft = leftDirection >= 0 && n % size != 0;
+        boolean isValidRigth = rigthDirection < grid.length && rigthDirection % size != 0;
+        boolean isValidUp = upDirection > 0;
+        boolean isValidDown = downDirection < grid.length;
+
+        boolean isUpperBound = upDirection < size && upDirection >= 0;
+        boolean isLowerBound = downDirection >= grid.length - size && downDirection < grid.length;
+
+        if (isUpperBound && grid[upDirection] == true && up)
+            return true;
+        
+        if (isLowerBound && grid[downDirection] == true && down)
+            return true;
+
+        if (isValidUp && grid[upDirection] == true && !seen[upDirection])
+            if (detectPath(seen, upDirection, up))
+                return true;
+        
+        if (isValidDown && grid[downDirection] == true && !seen[downDirection])
+            if (detectPath(seen, downDirection, up))
+                return true;
+
+        if (isValidLeft && grid[leftDirection] == true && !seen[leftDirection]){
+            if (detectPath(seen, leftDirection, up))
+                return true;
+        }
+
+        if (isValidRigth && grid[rigthDirection] == true && !seen[rigthDirection]){
+            if (detectPath(seen, rigthDirection, up))
+                return true;
+        }
         return false;
     }
 
@@ -77,7 +111,20 @@ public class Percolation {
 
     public static void main(String[] args){
         init();
-        randomShadow();
+        boolean percolates = false; 
+        while (!percolates){
+            
+            print();
+            
+            randomShadow();
+            for (int firstRowElement = 0; firstRowElement < size; firstRowElement ++)
+                if (grid[firstRowElement] == false)
+                    continue;
+                else if (isNaivePercolation(firstRowElement)){
+                    percolates = true;
+                    break;
+                }
+        }
         print();
     }
 }
