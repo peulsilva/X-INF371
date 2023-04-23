@@ -1,18 +1,22 @@
-## Getting Started
+# Solving percolation with Union Find
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+This code (implemented in Java) has a solution to the percolation problem.
 
-## Folder Structure
+## :newspaper: The problem
 
-The workspace contains two folders by default, where:
+The percolation problem involves studying the connectivity of a graph or network.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+In this problem, we start with a graph or network, where each node or vertex is either "occupied" or "unoccupied" with some probability. The objective is to determine whether there is a path of occupied nodes that connects two given nodes or a set of nodes in the graph.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+This problem has many applications in computer science, such as in the analysis of network connectivity, the design of robust communication networks, and the modeling of the spread of diseases or information through social networks.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+<p align="center">
+    <img src="img/percolation.png" />
+</p>
 
-## Dependency Management
+## :white_check_mark: Goals
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+The goals in this code were to compare two solutions of percolation problem
+
+* The first one (and less efficient) using recursion
+* The second one (and more efficient) using the data structure [Union Find](https://en.wikipedia.org/wiki/Disjoint-set_data_structure)
