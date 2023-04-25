@@ -2,29 +2,29 @@ public class Percolation {
     static int size = 10;
     static int length = size * size;
     static boolean[] grid = new boolean[length];
-    // UnionFind uf;
     
 
     public static void init(){
         // init all entries with false
-        // UnionFind.init(length);
+        UnionFind.init(length);
         
         for (int i = 0; i< grid.length; i++){
             grid[i] = false;
         }
-
+        
         // String str = """
-        //     *--*-*--*-
-        //     *--*-*-*--
-        //     *-*--**-**
-        //     *----**--*
-        //     **-**---**
-        //     ****--**-*
-        //     ---**---**
-        //     --****-*--
-        //     -*-*-**--*
-        //     -********-
-        // """;
+        // String str = 
+        //     "*----**-*-" + 
+        //     "**-**--***" +
+        //     "-*----**--" +
+        //     "****---***" +
+        //     "--*--**---" +
+        //     "*-*-*--*-*" +
+        //     "--*--**-*-" + 
+        //     "-***-**-**" + 
+        //     "-*-*--**-*" +
+        //     "*--***-*--"; 
+        // // """;
         // int lastIdx = 0;
         // // boolean[] grid = new boolean[100];
         
@@ -41,7 +41,7 @@ public class Percolation {
         // }
     }
 
-    public static void print(boolean[] grid){
+    public static void print(){
         String gridStr = "";
         for (int i = 0; i < grid.length; i++){
             boolean isBlack = grid[i];
@@ -70,14 +70,12 @@ public class Percolation {
 
             if (grid[j] == false){
                 grid[j] = true;
-                // propagateUnion(j);
+                propagateUnion(j);
                 return j;
             }
         }
         return -1;
     }
-    static int nCalls = 0;
-
     static int allFalse(boolean[] arr){
         int nTrues = 0;
         for (int i = 0; i< arr.length; i++)
@@ -90,14 +88,13 @@ public class Percolation {
     public static boolean isNaivePercolation(int n){
         boolean[] seen = new boolean[grid.length];
         initSeenArray(seen);
-        nCalls = 0;
 
         if (grid[n] == false)
             return false;
 
         if (detectPath(seen, n, true)){
             initSeenArray(seen);
-            if (detectPath(seen, n, false ))
+            if (detectPath(seen, n, false))
                 return true;
         }
         return false;
@@ -109,7 +106,6 @@ public class Percolation {
         boolean up
     ){
         seen[n] = true;
-        nCalls +=1;
 
         boolean down = !up;
 
@@ -120,7 +116,7 @@ public class Percolation {
 
         boolean isValidLeft = leftDirection >= 0 && n % size != 0;
         boolean isValidRigth = rigthDirection < grid.length && rigthDirection % size != 0;
-        boolean isValidUp = upDirection > 0;
+        boolean isValidUp = upDirection >= 0;
         boolean isValidDown = downDirection < grid.length;
 
         boolean isUpperBound = upDirection < 0;
@@ -161,7 +157,8 @@ public class Percolation {
     }
 
     public static boolean isPercolation(int n){
-        return isNaivePercolation(n);
+        // return isNaivePercolation(n);
+        return isFastPercolation(n);
     }
 
     public static double percolation(){
@@ -169,18 +166,16 @@ public class Percolation {
         boolean percolates = false;
         double numBlackEntries = 0; 
         while (!percolates){
+            print();
 
-            randomShadow();
+            int n = randomShadow();
             numBlackEntries += 1;
 
-            for (int firstRowElement = 0; firstRowElement < size; firstRowElement ++)
-                if (grid[firstRowElement] == false)
-                    continue;
-                else if (isPercolation(firstRowElement)){
-                    percolates = true;
-                    break;
-                }
+            if (isLogPercolation())
+                percolates = true;
+
         }
+        print();
         return numBlackEntries/length;
     }
 
@@ -194,50 +189,70 @@ public class Percolation {
         return mean(results);
     }
 
-    // public static void propagateUnion(int n){
-    //     boolean colorN = grid[n];
+    public static void propagateUnion(int n){
+        boolean colorN = grid[n];
         
-    //     int upDirection = n - size;
-    //     int downDirection = n + size;
-    //     int leftDirection = n - 1;
-    //     int rigthDirection = n + 1;
+        int upDirection = n - size;
+        int downDirection = n + size;
+        int leftDirection = n - 1;
+        int rigthDirection = n + 1;
 
-    //     boolean isValidLeft = leftDirection >= 0 && n % size != 0;
-    //     boolean isValidRigth = rigthDirection < grid.length && rigthDirection % size != 0;
-    //     boolean isValidUp = upDirection > 0;
-    //     boolean isValidDown = downDirection < grid.length;
+        boolean isValidLeft = leftDirection >= 0 && n % size != 0;
+        boolean isValidRigth = rigthDirection < grid.length && rigthDirection % size != 0;
+        boolean isValidUp = upDirection > 0;
+        boolean isValidDown = downDirection < grid.length;
 
-    //     if (isValidLeft && grid[leftDirection] == colorN)
-    //         UnionFind.union(n, leftDirection);
+        boolean isUpperBound = upDirection < 0;
+        boolean isLowerBound = downDirection >= length;
 
-    //     if (isValidRigth && grid[rigthDirection] == colorN)
-    //         UnionFind.union(n, rigthDirection);
+        if (isValidLeft && grid[leftDirection] == colorN)
+            UnionFind.union(n, leftDirection);
 
-    //     if (isValidDown && grid[downDirection] == colorN)
-    //         UnionFind.union(n, downDirection);
+        if (isValidRigth && grid[rigthDirection] == colorN)
+            UnionFind.union(n, rigthDirection);
 
-    //     if (isValidUp && grid[upDirection] == colorN)
-    //         UnionFind.union(n, upDirection);
+        if (isValidDown && grid[downDirection] == colorN)
+            UnionFind.union(n, downDirection);
 
-    // }
+        if (isValidUp && grid[upDirection] == colorN)
+            UnionFind.union(n, upDirection);
 
-    // public static boolean isFastPercolation(int n){
+        if (isUpperBound)
+            UnionFind.union(n, length );
+        else if (isLowerBound)
+            UnionFind.union(n, length + 1);
 
-    //     // grid[n1] = grid[n-1][0]
-    //     // grid[nn] = grid[n-1][n-1]
-    //     int n1 = size * (size - 1);
-    //     int nn = (size * size) -1; 
-    //     for (int i = n1; i <= nn; i++){
-    //         if (grid[i] == true && (UnionFind.find(i) == UnionFind.find(n)))
-    //             return true;
-    //     }
-    //     return false;
-    // }
+    }
+
+    public static boolean isFastPercolation(int n){
+        boolean isConnectedToFirstRow = false;
+        boolean isConnectedToLastRow = false;
+
+        for (int firstRowElement = 0; firstRowElement < size; firstRowElement ++){
+            if (grid[n] == grid[firstRowElement] && UnionFind.find(firstRowElement) == UnionFind.find(n)){
+                isConnectedToFirstRow = true;
+                break;
+            }
+        }
+
+        for (int lastRowElement = length - size; lastRowElement < length; lastRowElement ++){
+            if (grid[n] == grid[lastRowElement] && UnionFind.find(lastRowElement) == UnionFind.find(n)){
+                isConnectedToLastRow = true;
+                break;
+            }
+        }
+
+        return isConnectedToFirstRow && isConnectedToLastRow;
+    }
+
+    static boolean isLogPercolation(){
+        return UnionFind.find(length) == UnionFind.find(length+1);
+    }
 
     
 
     public static void main(String[] args){
-
+        percolation();
     }
 
     // utils
