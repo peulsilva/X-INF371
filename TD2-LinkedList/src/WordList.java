@@ -4,10 +4,10 @@ public class WordList {
         content = null;
     }
 
-    WordList(String str, WordList list){
+    WordList(String str, WordList next){
         this.content = new Node(str, null);
-        if (list != null)
-            this.content.next = list.content;
+        if (next != null)
+            this.content.next = next.content;
     }
 
     static WordList foobar = new WordList(
