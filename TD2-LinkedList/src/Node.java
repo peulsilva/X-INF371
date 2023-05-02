@@ -44,9 +44,12 @@ public class Node {
     }
 
     static Node copy(Node the){
+        
         Node copyList = new Node(the.head, null);
+        Node last = copyList;
         for (Node current = the.next; current != null; current = current.next){
-            addLast(current.head, copyList);
+            last.next = new Node(current.head, null);
+            last = last.next;
         }
         return copyList;
     }
