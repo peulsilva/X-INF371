@@ -35,4 +35,15 @@ public class Prefix {
         newString[this.t.length - 1] = w;
         return new Prefix(newString);
     }
+
+    public int hashCode(){
+        int h=0;
+        for (int i=0; i< this.t.length; i++)
+            h = 37*h + this.t[i].hashCode();
+        return h;
+    }
+
+    int hashCode(int n){
+        return Math.abs(this.hashCode()) % n;
+    }
 }
