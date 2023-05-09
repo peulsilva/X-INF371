@@ -28,10 +28,10 @@ public class HMap {
     void addSimple(Prefix key, String w){
         int hashIdx = key.hashCode(this.t.length);
         if (this.t[hashIdx] != null){
-            this.t[hashIdx] = new EntryList(
-                new Entry(key, new WordList(w, null)), 
-                this.t[hashIdx]
-            );
+            this.t[hashIdx]
+                .head
+                .value
+                .addLast(w);
         }
         else { // this.t[hashIdx] == null
             this.t[hashIdx] = new EntryList(
