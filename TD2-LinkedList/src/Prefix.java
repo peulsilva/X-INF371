@@ -44,6 +44,6 @@ public class Prefix {
     }
 
     int hashCode(int n){
-        return Math.abs(this.hashCode()) % n;
+        return Math.floorMod(this.hashCode(), n);
     }
 }
