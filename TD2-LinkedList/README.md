@@ -1,18 +1,21 @@
-## Getting Started
+# Text Generator with Linked Lists and Hash maps
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## :newspaper: The problem
 
-## Folder Structure
+The aim of this assignment is to write a Java program that will generate pseudo-text based on the 35 chapters of Gustave Flaubert's book. The method used for text generation is based on Markov chains.
 
-The workspace contains two folders by default, where:
+The generated text will have the following properties: Given an integer n≥1
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+* All subsequences of n+1 words in the generated text are subsequences of n+1 words in Madame Bovary's text.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+* The first n words of the text are the first n words of a chapter in Madame Bovary.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+* The last n words of the text are also the last n words of a chapter in Madame Bovary.
 
-## Dependency Management
+## :white_check_mark: Goals
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+The objectives of this work are to implement hashmaps (dictionaries) from key-value sets based on linked lists.
+
+<p align="center">
+    <img src="img/hashmap.png" />
+</p>
