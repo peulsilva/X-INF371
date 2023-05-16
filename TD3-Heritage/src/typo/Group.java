@@ -41,11 +41,10 @@ public abstract class Group extends Box {
     }
 
     public String toString(){
-        String str = "";
-        list.forEach(b -> {
-            str += b.toString();
-        });
-
+        String str = new String("") ;
+        for (Box temp: list){
+            str += temp.toString();
+        }
         return str;
     }
 }
