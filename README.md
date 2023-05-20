@@ -5,3 +5,4 @@ Repository dedicated to my solutions to the practical sessions of the INF71 - Al
 
 * Week 1: Studying percolation problem with the Union Find data structure 
 * Week 2: Studying text generators using Hash maps and Linked Lists
+* Week 3: Studying heritage using typography
