@@ -40,11 +40,16 @@ public abstract class Group extends Box {
         this.list.addLast(b);
     }
 
+    @Override
     public String toString(){
-        String str = new String("") ;
-        for (Box temp: list){
-            str += temp.toString();
-        }
-        return str;
-    }
+        String str = super.toString() + "{";
+		for (Box temp: list) {
+			str += "\n"+ temp.toString() + ",";
+		}
+		str = str.replaceAll("\n", "\n\t");
+		str += "\n";
+        str += "}";
+		return str;
+	}
+    
 }
