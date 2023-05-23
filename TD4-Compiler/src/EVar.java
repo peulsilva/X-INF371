@@ -1,6 +1,6 @@
 import edu.polytechnique.xvm.asm.opcodes.*;
 
-@SuppressWarnings("unused")
+
 public final class EVar extends AbstractExpr {
   public final String name; // variable name
 
@@ -10,6 +10,7 @@ public final class EVar extends AbstractExpr {
 
   @Override
   public void codegen(CodeGen cg) {
-    throw new UnsupportedOperationException(); // FIXME
+    int address = cg.getOffset(this.name);
+    cg.pushInstruction(new RFR(address));
   }
 }

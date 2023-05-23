@@ -1,6 +1,6 @@
 import edu.polytechnique.xvm.asm.opcodes.*;
 
-@SuppressWarnings("unused")
+// @SuppressWarnings("unused")
 public final class EBool extends AbstractExpr {
   public final boolean value; // Literal value
 
@@ -14,6 +14,7 @@ public final class EBool extends AbstractExpr {
 
   @Override
   public void codegen(CodeGen cg) {
-    throw new UnsupportedOperationException(); // FIXME
+    int thisValue = this.value == true ? 1 : 0;
+    cg.pushInstruction(new PUSH(thisValue));
   }
 }

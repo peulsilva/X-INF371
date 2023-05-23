@@ -40,6 +40,10 @@ public final class CodeGen {
   public void pushLocalVariable(String name, int offset) {
     this.offsets.put(name, offset);
   }
+
+  public int getOffset(String name){
+    return this.offsets.get(name); 
+  }
   
   public void clearLocals() {
     this.offsets.clear();

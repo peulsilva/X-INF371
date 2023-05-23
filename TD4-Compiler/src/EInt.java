@@ -14,6 +14,6 @@ public final class EInt extends AbstractExpr {
 
   @Override
   public void codegen(CodeGen cg) {
-    throw new UnsupportedOperationException(); // FIXME
+    cg.pushInstruction(new PUSH(this.value));
   }
 }
