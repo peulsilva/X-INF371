@@ -1,7 +1,7 @@
 import edu.polytechnique.xvm.asm.opcodes.*;
 import java.util.Vector;
 
-@SuppressWarnings("unused")
+
 public final class IBlock extends AbstractInstruction {
   public final Vector<AbstractInstruction> body;  // list of instructions (block)
 
@@ -20,6 +20,9 @@ public final class IBlock extends AbstractInstruction {
 
   @Override
   public void codegen(CodeGen cg) {
-    throw new UnsupportedOperationException(); // FIXME
+    
+    for (AbstractInstruction instruction : this.body){
+      instruction.codegen(cg);
+    }
   }
 }

@@ -11,19 +11,20 @@ public final class IWhile extends AbstractInstruction {
 
   @Override
   public void codegen(CodeGen cg) {
-    String lbl1 = CodeGen.generateLabel();
-    String lbl2 = CodeGen.generateLabel();
+    String alpha = CodeGen.generateLabel();
+    String beta = CodeGen.generateLabel();
 
     // Push start of loop label
-    cg.pushLabel(lbl1);
+    cg.pushLabel(alpha);
     // Assemble condition
     this.condition.codegen(cg);
-    // If condition is 0, jump to lbl2
-    cg.pushInstruction(new GTZ(lbl2));
+    // If condition is 0, jump to beta
+    cg.pushInstruction(new GTZ(beta));
     // Generate code for the body
     this.body.codegen(cg);
-    // To be continued...
+    // looping
+    cg.pushInstruction(new GTO(alpha));
+    cg.pushLabel(beta);
     
-    throw new UnsupportedOperationException(); // FIXME
   }
 }

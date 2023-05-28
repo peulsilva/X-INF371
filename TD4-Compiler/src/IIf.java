@@ -1,6 +1,6 @@
 import edu.polytechnique.xvm.asm.opcodes.*;
 
-@SuppressWarnings("unused")
+
 public final class IIf extends AbstractInstruction {
   public final AbstractExpr        condition; // condition (<> 0 => true)
   public final AbstractInstruction iftrue   ; // if "true  (<> 0)" branch
@@ -17,6 +17,26 @@ public final class IIf extends AbstractInstruction {
 
   @Override
   public void codegen(CodeGen cg) {
-    throw new UnsupportedOperationException(); // FIXME
+    // compile the condition
+    String alpha = CodeGen.generateLabel();
+    String beta = CodeGen.generateLabel();
+    
+    this.condition.codegen(cg);
+
+    // GTZ(alpha)
+    cg.pushInstruction(new GTZ(alpha));
+
+    // compile iftrue condition
+    this.iftrue.codegen(cg);
+    
+    // GTO(beta)
+    cg.pushInstruction(new GTO(beta));
+
+    cg.pushLabel(alpha);
+    
+    // compile iffalse condition
+    this.iffalse.codegen(cg);
+
+    cg.pushLabel(beta);
   }
 }

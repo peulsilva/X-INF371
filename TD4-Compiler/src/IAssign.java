@@ -1,7 +1,6 @@
 import edu.polytechnique.xvm.asm.opcodes.*;
 import java.util.Optional;
 
-@SuppressWarnings("unused")
 public final class IAssign extends AbstractInstruction {
   public final Optional<String> lvalue; // (optional) left-value
   public AbstractExpr           rvalue; // right-value (expression)
@@ -13,6 +12,10 @@ public final class IAssign extends AbstractInstruction {
 
   @Override
   public void codegen(CodeGen cg) {
-    throw new UnsupportedOperationException(); // FIXME
+    this.rvalue.codegen(cg);
+    if (this.lvalue.isPresent()){
+      int address = cg.getOffset(this.lvalue.get());
+      cg.pushInstruction(new WFR(address));
+    }
   }
 }
