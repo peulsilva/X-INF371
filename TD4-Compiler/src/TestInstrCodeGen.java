@@ -8,8 +8,11 @@ import edu.polytechnique.xvm.asm.opcodes.STOP;
 public class TestInstrCodeGen {
   // Modify this instruction at will
   public final static String DEFAULT =
-    "< x = 2; y = 3; >" + // Local variables declaration
-    "if (x < y) x = x + 1; while (x < y) { x = x + 1; y = y - 1; }";
+    // "< x = 2; y = 3; >" + // Local variables declaration
+    // "if (x < y) x = x + 1; while (x < y) { x = x + 1; y = y - 1; }";
+
+    "< x = 2; y = 3;>" + 
+    "x+10*y >= 30;";
   
   public static void main(String[] args)
       throws MJavaParseError, MJavaTypingError

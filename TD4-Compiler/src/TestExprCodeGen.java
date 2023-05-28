@@ -8,8 +8,9 @@ import edu.polytechnique.xvm.asm.opcodes.STOP;
 public class TestExprCodeGen {
   // Modify this expression at will
   public final static String DEFAULT =
-    "< x = 2; y = 7; z = 5; >" + // Local variables declaration
-    "(x + 2 * y - z == 0) && (x == 2)";
+    "< x = 2; y = 3;>" + // Local variables declaration
+    "x + y*10 >= 30";
+    // "print x;";
   
   public static void main(String[] args)
       throws MJavaParseError, MJavaTypingError
