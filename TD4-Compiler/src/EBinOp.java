@@ -89,10 +89,16 @@ public final class EBinOp extends AbstractExpr {
         break;
 
       case GE:
+        this.right.codegen(cg); 
         this.left.codegen(cg);
-        this.right.codegen(cg);
         cg.pushInstruction(new LT());
-        cg.pushInstruction(new NOT());
+        this.right.codegen(cg);
+        this.left.codegen(cg);
+        cg.pushInstruction(new EQ());
+        cg.pushInstruction(new OR());
+        break;
+
+      default:
         break;
     }
   }
