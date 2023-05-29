@@ -21,6 +21,8 @@ public final class IReturn extends AbstractInstruction {
         .codegen(cg);
     }
 
+    cg.pushInstruction(new PXR());
+
     cg.pushInstruction(new RET());
   }
 }
