@@ -15,6 +15,12 @@ public final class IReturn extends AbstractInstruction {
 
   @Override
   public void codegen(CodeGen cg) {
-    throw new UnsupportedOperationException(); // FIXME
+    if (this.result.isPresent()){
+      this.result
+        .get()
+        .codegen(cg);
+    }
+
+    cg.pushInstruction(new RET());
   }
 }
