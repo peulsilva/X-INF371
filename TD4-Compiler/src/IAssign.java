@@ -17,5 +17,8 @@ public final class IAssign extends AbstractInstruction {
       int address = cg.getOffset(this.lvalue.get());
       cg.pushInstruction(new WFR(address));
     }
+    else{
+      cg.pushInstruction(new POP());
+    }
   }
 }
