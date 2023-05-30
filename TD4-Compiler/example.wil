@@ -1,3 +1,6 @@
+int add(int x, int y) {
+  int r = x + y;
+  return r;
+}
 
-int incr(int x) { return x + 1; }
-void main() { print incr(41); }
+void main() { print add(13, 29); }
