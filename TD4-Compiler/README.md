@@ -1,18 +1,16 @@
-## Getting Started
+# Coding a Java compiler
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## :white_check_mark: Goals
 
-## Folder Structure
+The goal of this assignment is to code a Java compiler and understand the design of compilers.
 
-The workspace contains two folders by default, where:
+This new language will be compiled in ``` .wil``` files and can ran through [XVM](https://www.enseignement.polytechnique.fr/informatique/INF371/xvm/) (Polytechnique's Virtual Machine). 
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+# :runner: Running the code
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+To generate the compiled code, run ```/src/TestProgramCodeGen.java```. It will compile the code in ```/example.wil```. Feel free to modify this file.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Some observations about this new language:
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+* The only types allowed are ```int``` and ```boolean```.
+* The accepted instructions are ```if(condition)/else, while(condition), return (value), print (expression)```
