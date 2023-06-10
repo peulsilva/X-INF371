@@ -1,12 +1,16 @@
+import java.util.LinkedList;
 import java.util.Stack;
+
 
 public class Calculator {
     Stack<Double> numbers;
     Stack<Operator> operators;
+    LinkedList<Double> results;
 
     public Calculator(){
         this.numbers = new Stack<Double>();
         this.operators = new Stack<Operator>();
+        this.results = new LinkedList<Double>();
     }
 
     public void pushDouble(double d){
@@ -19,13 +23,21 @@ public class Calculator {
 
     public double getResult(){
         if (this.numbers.empty())
-            throw new RuntimeException("Trying to get the top of an empty stack.");
-        return this.numbers.firstElement();
+            throw new RuntimeException("Error on getResult: Trying to get the result from the top of an empty stack.");
+        double result = this.numbers.pop();
+        this.numbers.push(result);
+        return result;
     }
 
     public void executeBinOperator(Operator op){
+        if (this.numbers.empty())
+            throw new RuntimeException("error on executeBinOperstor: numbers with less than one element. This might happen as a result of incorrect parenthesis");
         double a = this.numbers.pop();
+        
+        if (this.numbers.empty())
+            throw new RuntimeException("error on executeBinOperstor: numbers with less than two elements. This might happen as a result of incorrect parenthesis");
         double b = this.numbers.pop();
+
         double result;
 
         switch (op){
@@ -46,7 +58,8 @@ public class Calculator {
                 break;
 
             default:
-                result = 0;
+                result = -1e4;
+                break;
 
         }
 
@@ -68,7 +81,7 @@ public class Calculator {
             case DIV: 
                 return 2;
             case OPEN:
-                break;
+                return 0;
   
         }
 
@@ -82,6 +95,9 @@ public class Calculator {
         }
 
         Operator lastOp = this.operators.lastElement();
+
+        if (op == Operator.OPEN)
+            return;
 
         while (!this.operators.empty() &&
                this.precedece(op) <= this.precedece(lastOp)){
@@ -107,22 +123,42 @@ public class Calculator {
             this.executeBinOperator(op);
 
         }
+        double result = this.numbers.lastElement();
+        this.results.push(result);
     }
 
-    public void commandLpar(){
+    public void commandLPar(){
         this.operators.push(Operator.OPEN);
     }
 
-    public void commandRpar(){
+    public void commandRPar(){
         if (this.operators.empty()){
-
+            throw new RuntimeException("adding a right parenthesis without having a left one before");
         }
-        Operator lastOp = this.operators.firstElement();
+        Operator lastOp = this.operators.lastElement();
         while (!this.operators.empty() &&
                lastOp != Operator.OPEN){
-            
-            
+            Operator op = this.operators.pop();
+            this.executeBinOperator(op);
+            lastOp = this.operators.lastElement();
         }
+
+        // here, lastOp == OPEN
+        // Discard matching parenthesis
+        this.operators.pop();
+
+    }
+
+    public void commandInit(){
+        this.numbers.clear();
+        this.operators.clear();
+    }
+
+    public void commandReadMemory(int i){
+        if (this.results.size() < i)
+            throw new RuntimeException("Trying to read memory from an inexisting space");
+        double iResult = this.results.get(results.size() - i);
+        this.numbers.push(iResult);
     }
 
     @Override
@@ -134,15 +170,21 @@ public class Calculator {
     public static void main (String[] args){
         Calculator calculator = new Calculator();
 
+        calculator.commandLPar();
         calculator.commandDouble(5);
-        calculator.commandOperator(Operator.PLUS);
+        calculator.commandOperator(Operator.MINUS);
+        calculator.commandDouble(4);
+        calculator.commandRPar();
+        calculator.commandOperator(Operator.MULT);
+        calculator.commandLPar();
         calculator.commandDouble(8);
-        calculator.commandOperator(Operator.DIV);
-        calculator.commandDouble(9);;
+        calculator.commandOperator(Operator.PLUS);
+        calculator.commandDouble(-5);
+        calculator.commandRPar();
         calculator.commandEqual();
 
         System.out.println(calculator.getResult());
-        System.out.println(calculator);
+        System.out.println(calculator.results);
     }
 
 }
