@@ -139,7 +139,11 @@ public class Calculator {
         while (!this.operators.empty() &&
                lastOp != Operator.OPEN){
             Operator op = this.operators.pop();
+            System.out.println(op);
             this.executeBinOperator(op);
+            
+            // if (this.operators.empty())
+            //     return;
             lastOp = this.operators.lastElement();
         }
 
