@@ -114,7 +114,7 @@ public class Tokenizer {
     /**
      * Resets states of everything, unless the calculator
      **/
-    private void resetState(){
+    public void resetState(){
         
         this.isStart = true;
         this.isIntNum = false;
