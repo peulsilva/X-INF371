@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Tokenizer {
     boolean isStart;
     boolean isIntNum;
@@ -6,6 +8,7 @@ public class Tokenizer {
     boolean isNonIntNum;
     int decimalDigits;
     int sign;
+    char lastChar;
 
     private boolean debug;
 
@@ -30,7 +33,15 @@ public class Tokenizer {
         if (c == ' ')
             return;
 
+        if (c == 'C'){
+            this.resetState();
+            this.calc = new Calculator();
+            return;
+        }
+
         if (this.isStart){
+            boolean isNegativeNumber = this.isNegativeNumber(c);
+
             if (Character.isDigit(c)){
                 int n = Character.getNumericValue(c);
                 
@@ -49,9 +60,9 @@ public class Tokenizer {
                 this.decimalDigits++;
             }
 
-            else if (c == '-')
-                this.sign = -1;
-            
+            else if (isNegativeNumber){
+                this.sign = -1 ;
+            }
             else
                 this.handleCommand(c);
         }
@@ -95,9 +106,15 @@ public class Tokenizer {
                 this.handleCommand(c);
             }
         }
+        this.lastChar = c;
     }
 
+    
+    /**
+     * Resets states of everything, unless the calculator
+     **/
     private void resetState(){
+        
         this.isStart = true;
         this.isIntNum = false;
         this.isNonIntNum = false;
@@ -131,6 +148,22 @@ public class Tokenizer {
             throw new RuntimeException("error in Tokenizer.readChar(char): not recognized char " + c);
     }
 
+    private boolean isBinaryOperator(char c){
+        char[] binaryOperators = {'+', '-', '*', '/'};
+        return (new String(binaryOperators).indexOf(c) != -1);
+    }
+
+    private boolean isNegativeNumber (char c){
+        boolean isNegativeNumber = this.lastChar == 0 
+            || this.lastChar == '(' 
+            || this.lastChar == '='
+            || this.isBinaryOperator(this.lastChar);
+
+        isNegativeNumber = isNegativeNumber && c == '-';
+
+        return isNegativeNumber;
+    }
+
     public void readString(String s){
         for (int i=0; i < s.length(); i++){
             char c = s.charAt(i);
@@ -146,7 +179,8 @@ public class Tokenizer {
         // tokenizer.readChar('2');
         // tokenizer.readChar('3');
         // tokenizer.readChar('=');
-        tokenizer.readString("(25-5)-(28-13)=");
+        tokenizer.readString("8+-2=");
+
         System.out.println(tokenizer.calc.results);
     }
 }
