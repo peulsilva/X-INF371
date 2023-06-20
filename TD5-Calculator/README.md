@@ -1,18 +1,11 @@
-## Getting Started
+# Coding a Calculator in Java
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## :white_check_mark: Goals
 
-## Folder Structure
+The goal of this assignment is to code a Java calculator, understand the logics behind it and get used with the framework [JavaFx](https://openjfx.io/).
 
-The workspace contains two folders by default, where:
+<p align="center">
+    <img src="img/calculator.png" />
+</p>
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+By the end of this exercise, the students should be confortable handling front-end events such as mouse clicks and keyboard keys pressed.
